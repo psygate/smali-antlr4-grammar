@@ -32,13 +32,20 @@ registerIdentifier:             IDENTIFIER;
 stringLiteral:                  STRING_LITERAL;
 negativeNumericLiteral:         SUB positiveNumericLiteral;
 
+decimalNumericLiteral:          DECIMAL_LITERAL;
+hexNumericLiteral:              HEX_LITERAL;
+octNumericLiteral:              OCT_LITERAL;
+binaryNumericLiteral:           BINARY_LITERAL;
+floatNumericLiteral:            FLOAT_LITERAL;
+hexFloatLiteral:                HEX_FLOAT_LITERAL;
+
 positiveNumericLiteral:
-    DECIMAL_LITERAL
-    | HEX_LITERAL
-    | OCT_LITERAL
-    | BINARY_LITERAL
-    | FLOAT_LITERAL
-    | HEX_FLOAT_LITERAL
+    decimalNumericLiteral
+    | hexNumericLiteral
+    | octNumericLiteral
+    | binaryNumericLiteral
+    | floatNumericLiteral
+    | hexFloatLiteral
     ;
 
 numericLiteral:                 negativeNumericLiteral | positiveNumericLiteral;
@@ -233,7 +240,7 @@ constString:                    OP_CONST_STRING registerIdentifier COMMA stringL
 
 constStringJumbo:               OP_CONST_STRING_JUMBO registerIdentifier COMMA stringLiteral;
 
-constClass:                     OP_CONST_CLASS registerIdentifier COMMA referenceType;
+constClass:                     OP_CONST_CLASS registerIdentifier COMMA referenceOrArrayType;
 
 sGetInstruction:                OP_SGET registerIdentifier COMMA fieldInvocationTarget;
 
@@ -981,7 +988,9 @@ localDirectiveType:         nonVoidType;
 
 localDirectiveGenericHint:  stringLiteral;
 
-localDirective:             LOCAL_DIRECTIVE registerIdentifier COMMA locaDirectiveVariableName (COLON localDirectiveType)? (COMMA localDirectiveGenericHint)?;
+localDirectiveRegister:     registerIdentifier;
+
+localDirective:             LOCAL_DIRECTIVE localDirectiveRegister COMMA locaDirectiveVariableName (COLON localDirectiveType)? (COMMA localDirectiveGenericHint)?;
 
 localEndDirective:          LOCAL_END_DIRECTIVE registerIdentifier;
 
