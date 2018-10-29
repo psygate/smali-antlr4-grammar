@@ -1012,16 +1012,19 @@ methodBodyStatement:
     | localEndDirective
     | localRestartDirective
     | packedSwitchDirective
-    | packedSwitchEndDirective
     | arrayDataDirective
     | sparseSwitchDirective
     ;
 
 methodBody:                 methodBodyStatement+;
 
-packedSwitchDirective:      PACKED_SWITCH_DIRECTIVE numericLiteral;
+packedSwitchIdent:          numericLiteral;
 
-packedSwitchEndDirective:   PACKED_SWITCH_END_DIRECTIVE;
+packedSwitchDirectiveLabel: label;
+
+packedSwitchDirectiveLabels:packedSwitchDirectiveLabel+;
+
+packedSwitchDirective:      PACKED_SWITCH_DIRECTIVE packedSwitchIdent packedSwitchDirectiveLabels? PACKED_SWITCH_END_DIRECTIVE;
 
 methodDirective:            METHOD_DIRECTIVE methodDeclaration methodBody? METHOD_END_DIRECTIVE;
 
